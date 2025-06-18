@@ -18,8 +18,6 @@ public  class DreamsDiaryPage {
 
 	private By myDreams = By.id("dreamButton");
 
-
-
 	//3. Create a page actions
 
 	public DreamsDiaryPage(WebDriver driver) {
