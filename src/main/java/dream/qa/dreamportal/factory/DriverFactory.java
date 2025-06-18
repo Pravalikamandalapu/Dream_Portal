@@ -60,7 +60,65 @@ public class DriverFactory {
 	public synchronized static WebDriver getDriver() {
 		return tlDriver.get();
 	}
-	
+	public Properties initProp() {
+		prop = new Properties();
+		FileInputStream ip = null;
+
+		String envName = System.getProperty("env");
+		System.out.println("Running test on env: " + envName);
+
+		try {
+			if (envName == null) {   //null
+				System.out.println("No env is passed, running tests on QA env");
+				ip = new FileInputStream("./src/test/resources/config/qa.config.properties");
+			} else {
+				switch (envName.toLowerCase().trim()) {
+				case "qa":
+					ip = new FileInputStream("./src/test/resources/config/qa.config.properties");
+					break;
+
+				default:
+					//	                	
+
+				}
+			}
+
+			prop.load(ip);
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Log the error message
+			System.err.println("Error loading configuration: " + e.getMessage());
+		} finally {
+			// Close the FileInputStream
+			if (ip != null) {
+				try {
+					ip.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					// Log the error message
+					System.err.println("Error closing FileInputStream: " + e.getMessage());
+				}
+			}
+		}
+
+		return prop;
+	}
+
+
+
+
+	public static String getScreenshot() {
+		File srcFile=((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
+		String path=System.getProperty("user.dir")+"/screenshot/"+System.currentTimeMillis()+".png";
+		File destination=new File(path);
+		try {
+			FileUtil.copyFile(srcFile, destination);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return path;
+	}
+
 
 	
 }

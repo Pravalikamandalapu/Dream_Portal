@@ -30,10 +30,10 @@ public class BaseTest {
 	@BeforeTest
 	public void setup() {
 		df=new DriverFactory();
-		
+		prop=df.initProp();
 		driver=df.initDriver(prop);
 		dreamsDiaryPage=new DreamsDiaryPage(driver);
-
+		
 		softAssert=new SoftAssert();
 	}
 	@AfterTest
